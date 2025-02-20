@@ -1,113 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spam Classification ML Project</title>
     <!-- add bootstrap -->
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-     <!-- add custom CSS -->
-      <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-      
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
-    
-    <style>
-        /* *{
-         background-image: url("../static/imageee.png") ;
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- add custom CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
 
-        } */
-        .navbar{
-            background-color: rgb(165, 242, 239);
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+    <style>
+        /* General Styles */
+        body {
+            color: aliceblue;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #707676, #1b302b);
         }
-        .navbar h1{
-            margin-left: 450px;
+
+        a {
+            text-decoration: none;
+            color: inherit;
         }
-        .header{
-            background-color: rgb(165, 242, 239); 
-            color: black;
-            padding: 20px 0;
+
+        /* Navbar Styling */
+        header {
+            background: linear-gradient(45deg, #746e6e, #1b302b);
+            padding: 10px 0;
         }
-        .header h1{
-            font-size: 2.5rem;
+        .navbar {
+          
+          display: flex;
+          justify-content: center;
+        }
+        .navbar .logo a {
+            font-size: 39px;
+            color: #fff;
             font-weight: bold;
         }
-        .header p{
-            font-size: 1.25rem;
+        .navbar  a:hover {
+            background-color: #444;
+            border-radius: 5px;
         }
-        /* .btn{
-            background-color: bisque;
-        } */
-         img{
-            margin-top: 10px;
-            width: 500px;
-            height: 250px;
-         }
-        .upper{
-            margin-left: 350px;  
-         }
-        .lower{
-            background-color: rgb(203, 231, 255);
+
+        .container {
+            padding-top: 5vh;
+            display: flex;
+            flex-direction: column;
         }
-        .footer{
-            background-color: rgb(203, 231, 255); 
+        .form-group{
+    display: flex;
+    flex-direction: column;   
+    justify-content: center;
+    align-items: center;
+}
+        /* Input Field Styling */
+        .query-box-input {
+            width: 40vw;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #0c0707;
+            border-radius: 19px;
+            outline: none;
+            transition: border-color 0.3s ease;
+            background: transparent;
         }
-        .dataset{
-            margin-left: 500px;
+
+        .query-box-input:focus {
+            border-color: #25160f;
         }
+
+
+        .result {
+            border: 1px solid #0c0707;
+            border-radius: 19px;
+            width: 7vw;
+            /* padding-left: 40vw; */
+        }
+
+        .mt-3{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+        .btn {
+            background-color: #1b302b;
+            border: 1px solid #0c0707;
+            border-radius: 5px;
+            color: #fff;
+            
+        }
+
+     .Dataset{
+        margin-left: 38vw;
+     }
+
+
     </style>
 
 </head>
-<body>
-    <nav class = "navbar navbar-expand-lg navbar-light ">
-        <h1> Ham Spam Classifier</h1>
-    </nav>
 
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#">MsgChecker</a>
+            </div>
+            
+    
+        </nav>
+    </header>
     <section class="header text-center">
         <div class="container">
-            <div class="row align-items-center upper">
-               
-            </div> 
-            
-            <section class="form text-center py-5">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 offset-lg-3">
-                            <h2 class="display-5">Let's Predict</h2>
-                            <form method="POST" action="/predict">
-                                <div class="form-group">
-                                    <label for="message">Enter The Message:</label>
-                                    <textarea name="message" id="message" rows="4" cols="50" class="form_control" required></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-lg" name="action" value="predict">Predict</button>
-                            </form>
-                            {% if result is defined %}
-                            <div class="mt-3">
-                                <h3>Predicted Result:</h3>
-                                <p>{{'Spam' if result==1 else 'Not Spam'}}</p>
-                            </div>
-                            {% endif %}
-                        </div> 
+                    <h2 class="display-5">Let's Predict</h2>
+                    <form method="POST" action="/predict">
+                        <div class="form-group">
+                            <label for="message">Enter The Message:</label>
+                            <textarea name="message" id="message" rows="4" cols="50" class="query-box-input"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn" name="action" value="predict">Predict</button>
+                    </form>
+                    {% if result is defined %}
+                    <div class="mt-3">
+                        <h3>Predicted Result:</h3>
+                        <p class="result">{{'Spam' if result==1 else 'Not Spam'}}</p>
                     </div>
-                </div>
-            </section>
-        </div>
+                    {% endif %}
+        
     </section>
     <section class="footer">
 
         <div class="container">
-            <!-- <div>
-                <a href="https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset" class="btn btn-secondary
-                    btn-lg"> DataSet</a>
-            </div> -->
+
             <div class="col-lg-6 upper lower">
                 <a href="https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset" class="btn 
                     btn-lg  Dataset"> DataSet</a>
-                <img src="../static/imageee.png" alt="">
+                <!-- <img src="../static/imageee.png" alt=""> -->
             </div>
         </div>
-        
+
     </section>
-    
-    
+
+
 </body>
+
 </html>
